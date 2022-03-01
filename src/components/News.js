@@ -18,54 +18,65 @@ export class News extends Component {
     }
 
     handlePrevClick = async()=>{
-        console.log("Clicked on prev button")
+        // console.log("Clicked on prev button")
+        // Updating the state variables,Note:-the setState is a callback function 
         this.setState({
             page:this.state.page - 1,
         },()=>{
-            console.log("The setState of previousbutton has been fired")
+            // console.log("The setState of previousbutton has been fired")
         })
         // console.log(this.state.page)
         
-        let url = `https://newsapi.org/v2/top-headlines?country=in&apiKey=f0999a3231b141b1b329829440e0fe68&page=${this.state.page-1}`
-        console.log(url)
-
+        // Defining the page variable
+        let url = `https://newsapi.org/v2/top-headlines?country=in&apiKey={your_api_key}&page=${this.state.page-1}`
+        // console.log(url)
+        
+        // Fetching the news from page variable
         let data = await fetch(url)
         
+        // Convert the raw data to json using .json function
         let parsedData = await data.json()
         
+        // Set the this.state.articles to the newest articles of corresponding page
         this.setState({articles:parsedData.articles})
 
     }
 
     handleNextClick = async()=>{
+        // This is condition for the pagination,it can handle the last page and do not fecth the non-existing pages when user clicking the next button by default we aslo  handled the next button disabled when the last page occur
         if(this.state.page +1 > Math.ceil(this.state.totalResults/20)){
-         console.log("If condition fired")
+        //  console.log("If condition fired")
         }
+
         else{
-         console.log("Else condition fired")   
-        console.log("Clicked on Next button")
+        //  console.log("Else condition fired")   
+        // console.log("Clicked on Next button")
+        
+        // Updating the state variables,Note:-the setState is a callback function 
         this.setState({
             page:this.state.page + 1,
         },()=>{
-            console.log("The setState of next function is fired")
+            // console.log("The setState of next function is fired")
         })
         // console.log(this.state.page)
-
+        // Defining the page variable
+        let url = `https://newsapi.org/v2/top-headlines?country=in&apiKey={your_api_key}&page=${this.state.page+1}`
+        // console.log(url)
         
-        let url = `https://newsapi.org/v2/top-headlines?country=in&apiKey=f0999a3231b141b1b329829440e0fe68&page=${this.state.page+1}`
-        console.log(url)
-        
+        // Fetching the newest news from corresponding page
         let data = await fetch(url)
-        
-        let parsedData = await data.json()
 
+        // Convert the raw data to json using .json function
+        let parsedData = await data.json()
+         
+        // Set the this.state.articles to the newest articles of corresponding page
         this.setState({articles:parsedData.articles})
     }
 
     }
 
     async componentDidMount(){
-        let url = `https://newsapi.org/v2/top-headlines?country=in&apiKey=f0999a3231b141b1b329829440e0fe68&page=${this.state.page}`
+        let url = `https://newsapi.org/v2/top-headlines?country=in&apiKey={your_api_key}&page=${this.state.page}`
         // console.log(url)
         
         // Fetching the url using fetch api
