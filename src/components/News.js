@@ -9,7 +9,7 @@ export class News extends Component {
     // Setting up the default propstypes if the props doesn't pass
     static defaultProps={
         country:'in',
-        page:1,
+        page:0,
         category:'general',
     }
     // Setting up the proptypes datatypes of their corresponding variable
@@ -31,11 +31,12 @@ export class News extends Component {
             loading: false,
             page: 0,
         }
-        console.log(this.state.articles)
+        // console.log(this.state.articles)
     }
 
 
     async componentDidMount() {
+        // Calling the updateNews function 
         this.updateNews()
 
     }
@@ -43,13 +44,13 @@ export class News extends Component {
     async updateNews(){
          // This is condition for the pagination,it can handle the last page and do not fecth the non-existing pages when user clicking the next button by default we aslo  handled the next button disabled when the last page occur
          if (!(this.state.page + 1 > Math.ceil(this.state.totalResults / this.props.pageSize))) {
-            console.log("If condition fired")
+            // console.log("If condition fired")
             // console.log(this.state.page)
             // Defining the page variable
             let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.api_key}&page=${this.state.page + 1}&pageSize=${this.props.pageSize}`
             // console.log(url)
-
             this.setState({ loading: true })
+            // console.log("the loading is true now")
             // Fetching the newest news from corresponding page
             let data = await fetch(url)
 
@@ -60,37 +61,41 @@ export class News extends Component {
             this.setState({
                 articles: parsedData.articles,
                 totalResults: parsedData.totalResults,
-                loading: false
+                loading: false,
+
+                // Here the page value in constructor is 0 and when the api fetch we pass the page +1 because it configure detct page variable as 0 and setState will is a asynchronous function   
+                page:this.state.page + 1  
             })
-            console.log("this is the total results "+this.state.totalResults)
+            // console.log("the loading is false now")
+           
         }
        
         
     }
-    handlePrevClick = async () => {
-        this.updateNews()
+    // handlePrevClick = async () => {
+    //     this.updateNews()
 
-        // Updating the state variables,Note:-the setState is a callback function 
-        this.setState({
-            page: this.state.page -1,
-        }, () => {
-            console.log("The setState of next function is fired")
-        })
+    //     // Updating the state variables,Note:-the setState is a callback function 
+    //     this.setState({
+    //         page: this.state.page -1,
+    //     }, () => {
+    //         console.log("The setState of next function is fired")
+    //     })
         
 
-    }
+    // }
 
-    handleNextClick = async () => {
-        this.updateNews()
+    // handleNextClick = async() => {
+    //     this.updateNews()
        
-        // Updating the state variables,Note:-the setState is a callback function 
-        this.setState({
-            page: this.state.page + 1,
-        }, () => {
-            console.log("The setState of next function is fired")
-        })
+    //     // Updating the state variables,Note:-the setState is a callback function 
+    //     this.setState({
+    //         page: this.state.page + 1,
+    //     }, () => {
+    //         console.log("The setState of next function is fired")
+    //     })
        
-    }
+    // }
 
 
 
@@ -111,8 +116,26 @@ export class News extends Component {
 
                     </div>
                     <div className="container d-flex justify-content-between">
-                        <button disabled={this.state.page <= 1} className="btn btn-dark" onClick={this.handlePrevClick}>&larr;Prev</button>
-                        <button disabled={this.state.page + 1 > Math.ceil(this.state.totalResults / this.props.pageSize)} className="btn btn-dark" onClick={this.handleNextClick}>Next&rarr;</button>
+                        <button disabled={this.state.page <= 1} className="btn btn-dark" onClick={()=>{
+                            this.updateNews()
+                            this.setState({
+                                // Updating the state variables,Note:-the setState is a callback function 
+                                page: this.state.page -1,
+                            }, () => {
+                                // console.log("The setState of next function is fired")
+                            })
+                            
+                        }}>&larr;Prev</button>
+                        <button disabled={this.state.page + 1 > Math.ceil(this.state.totalResults / this.props.pageSize)} className="btn btn-dark" onClick={()=>{
+                            this.updateNews()
+                            // Updating the state variables,Note:-the setState is a callback function 
+                            this.setState({
+                                page: this.state.page + 1,
+                            }, () => {
+                                // console.log("The setState of next function is fired")
+                            })
+                            
+                        }}>Next&rarr;</button>
                     </div>
                 </div>
             </>
