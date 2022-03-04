@@ -13,3 +13,19 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.infinite-scroll-component{
+  overflow:hidden !important;
+}
+.position{
+  display: flex;
+  justify-content: flex-end;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.card-img-top{
+  height:250px !important;
+}
+.card {
+  height:474px !important;
+}
