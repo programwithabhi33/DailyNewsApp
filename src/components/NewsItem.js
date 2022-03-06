@@ -1,12 +1,9 @@
-// import { hasUnreliableEmptyValue } from '@testing-library/user-event/dist/utils';
-import React, { Component } from 'react'
 // import { Link } from "react-router-dom";
-export class NewsItem extends Component {
+const NewsItem =(props)=> {
 
-    render() {
 
-        // Object destructing in render function 
-        let { title, desc, imageUrl, url, author, date, source } = this.props;
+        // props destructing
+        let { title, desc, imageUrl, url, author, date, source } =props;
         return (
             <div>
                 <div className="card my-4 mx-4">
@@ -18,12 +15,11 @@ export class NewsItem extends Component {
                         <h5 className="card-title">{title ? title.slice(0, 50) : ""}</h5>
                         <p className="card-text">{desc ? desc.slice(0, 80) : ""}</p>
                         <p className="card-text"><small className="text-success">By <strong>{!author ? "Unknown" : author}</strong> on {new Date(date).toGMTString()}</small></p>
-                        <a target="_blank" href={url} className="btn  btn-sm btn-dark">Read More</a>
+                        <a target="_blank" rel="noreferrer" href={url} className="btn  btn-sm btn-dark">Read More</a>
                     </div>
                 </div>
             </div>
         )
     }
-}
 
 export default NewsItem
