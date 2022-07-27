@@ -27,7 +27,7 @@ const News=(props)=> {
     const updateNews=async() =>{
         props.setProgress(10)
 
-        let url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.api_key}&page=${page}&pageSize=${props.pageSize}`
+        let url = `https://newsapi.org/v2/top-headlines?country=${'us'}&category=${props.category}&apiKey=${props.api_key}&page=${page}&pageSize=${props.pageSize}`
         
         setLoading(true)
         // Fetching the newest news from corresponding page
